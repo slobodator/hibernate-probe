@@ -16,20 +16,15 @@ public class OrderService {
     private EntityManager em;
 
     public void save() {
-        Client client = new Client("John", "Doe");
-        em.persist(client);
-
-        Address address = new Address("Kiev", "Kreschatik str.", "10");
-
-        Order order = new Order(client, address);
+        Order order = new Order(
+                new Client("John", "Doe"),
+                new Address("Kiev", "Kreschatik str.", "10")
+        );
         em.persist(order);
     }
 
     public void setExpress(long orderId, boolean express) {
         Order order = em.find(Order.class, orderId);
         order.setExpress(express);
-
-        // em.persist() or em.merge() ?
-        // em.flush() ?
     }
 }
