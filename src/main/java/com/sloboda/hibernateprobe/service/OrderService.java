@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import com.sloboda.hibernateprobe.entity.Client;
+import com.sloboda.hibernateprobe.entity.Item;
 import com.sloboda.hibernateprobe.entity.Order;
 import com.sloboda.hibernateprobe.entity.OrderItem;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class OrderService {
         em.persist(client);
 
         Order order = new Order();
-        order.setClientId(client.getId());
+        order.setClient(client);
         order.setCreated(ZonedDateTime.now());
         order.setExpress(1);
         order.setStatus("N"); // NEW
@@ -36,8 +37,8 @@ public class OrderService {
         em.persist(order);
 
         OrderItem orderItem = new OrderItem();
-        orderItem.setItemId(1L);
-        orderItem.setOrderId(order.getId());
+        orderItem.setItem(em.find(Item.class, 1L));
+        orderItem.setOrder(order);
         orderItem.setQuantity(2);
 
         em.persist(orderItem);
