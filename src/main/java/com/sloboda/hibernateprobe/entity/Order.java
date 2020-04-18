@@ -23,7 +23,7 @@ public class Order {
     private Client client;
 
     private String status;
-    private Boolean express;
+    private boolean express;
     private ZonedDateTime created;
 
     private String addressCity;

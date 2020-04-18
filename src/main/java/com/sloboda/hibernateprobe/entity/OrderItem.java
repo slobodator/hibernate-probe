@@ -21,5 +21,5 @@ public class OrderItem implements Serializable {
     @ManyToOne
     private Item item;
 
-    private Integer quantity;
+    private int quantity;
 }
