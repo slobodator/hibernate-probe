@@ -3,6 +3,7 @@ package com.sloboda.hibernateprobe.entity;
 import java.time.ZonedDateTime;
 
 import javax.persistence.AttributeOverride;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Embedded;
@@ -28,7 +29,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Client client;
 
     @Convert(converter = OrderStatusConverter.class)
