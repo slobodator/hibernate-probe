@@ -1,5 +1,6 @@
 package com.sloboda.hibernateprobe.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import org.hibernate.annotations.Columns;
+import org.hibernate.annotations.Type;
 import org.javamoney.moneta.Money;
 
 @Entity
@@ -19,5 +22,12 @@ public class Item {
 
     private String name;
 
+    @Columns(
+            columns = {
+                    @Column(name = "price_currency"),
+                    @Column(name = "price_amount")
+            }
+    )
+    @Type(type = "org.jadira.usertype.moneyandcurrency.moneta.PersistentMoneyAmountAndCurrency")
     private Money price;
 }
