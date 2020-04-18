@@ -28,7 +28,7 @@ public class OrderService {
         Order order = new Order();
         order.setClient(client);
         order.setCreated(ZonedDateTime.now());
-        order.setExpress(1);
+        order.setExpress(true);
         order.setStatus("N"); // NEW
         order.setAddressCity("Kiev");
         order.setAddressStreet("Kreschatik str.");
