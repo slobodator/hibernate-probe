@@ -33,14 +33,6 @@ public class OrderService {
         Order order = em.find(Order.class, orderId);
         Item item = em.find(Item.class, itemId);
 
-        Integer quantity = order.getItems().get(item);
-
-        if (quantity == null) {
-            quantity = 1;
-        } else {
-            quantity = quantity + 1;
-        }
-
-        order.getItems().put(item, quantity);
+        order.addItem(item);
     }
 }

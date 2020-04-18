@@ -1,6 +1,7 @@
 package com.sloboda.hibernateprobe.entity;
 
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -64,6 +65,18 @@ public class Order {
         this.express = false;
         this.created = ZonedDateTime.now();
         this.items = new HashMap<>();
+    }
+
+    public Map<Item, Integer> getItems() {
+        return Collections.unmodifiableMap(items);
+    }
+
+    public void addItem(Item item) {
+        items.merge(item, 1, Integer::sum);
+    }
+
+    public void removeItem(Item item) {
+        items.computeIfPresent(item, (k, v) -> v > 1 ? v - 1 : null);
     }
 
     @Override
