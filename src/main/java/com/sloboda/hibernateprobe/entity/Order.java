@@ -14,11 +14,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.sloboda.hibernateprobe.converter.OrderStatusConverter;
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "orders")
-@Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +34,9 @@ public class Order {
     @Convert(converter = OrderStatusConverter.class)
     private OrderStatus status;
 
+    @Setter
     private boolean express;
+
     private ZonedDateTime created;
 
     @Embedded
@@ -38,4 +44,13 @@ public class Order {
     @AttributeOverride(name = "street", column = @Column(name = "address_street"))
     @AttributeOverride(name = "building", column = @Column(name = "address_building"))
     private Address address;
+
+    public Order(Client client, Address address) {
+        this.client = client;
+        this.address = address;
+
+        this.status = OrderStatus.NEW;
+        this.express = false;
+        this.created = ZonedDateTime.now();
+    }
 }

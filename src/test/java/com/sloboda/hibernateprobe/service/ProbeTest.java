@@ -29,10 +29,7 @@ public class ProbeTest extends BaseTest {
 
     @Test
     public void testMoneyPersistence() {
-        Item item = new Item();
-
-        item.setName("Mask");
-        item.setPrice(Money.of(30, Monetary.getCurrency("UAH")));
+        Item item = new Item("Mask", Money.of(30, Monetary.getCurrency("UAH")));
 
         em.persist(item);
     }

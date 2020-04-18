@@ -7,11 +7,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "order_items")
-@Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class OrderItem implements Serializable {
     @Id
     @ManyToOne
@@ -22,4 +25,10 @@ public class OrderItem implements Serializable {
     private Item item;
 
     private int quantity;
+
+    public OrderItem(Order order, Item item, int quantity) {
+        this.order = order;
+        this.item = item;
+        this.quantity = quantity;
+    }
 }
