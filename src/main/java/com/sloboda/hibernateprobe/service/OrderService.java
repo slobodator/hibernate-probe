@@ -10,6 +10,7 @@ import com.sloboda.hibernateprobe.entity.Client;
 import com.sloboda.hibernateprobe.entity.Item;
 import com.sloboda.hibernateprobe.entity.Order;
 import com.sloboda.hibernateprobe.entity.OrderItem;
+import com.sloboda.hibernateprobe.entity.OrderStatus;
 import org.springframework.stereotype.Service;
 
 @Transactional
@@ -29,7 +30,7 @@ public class OrderService {
         order.setClient(client);
         order.setCreated(ZonedDateTime.now());
         order.setExpress(true);
-        order.setStatus("N"); // NEW
+        order.setStatus(OrderStatus.NEW);
         order.setAddressCity("Kiev");
         order.setAddressStreet("Kreschatik str.");
         order.setAddressBuilding("10");

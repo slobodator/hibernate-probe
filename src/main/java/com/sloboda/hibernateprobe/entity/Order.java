@@ -3,6 +3,8 @@ package com.sloboda.hibernateprobe.entity;
 import java.time.ZonedDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +24,9 @@ public class Order {
     @ManyToOne
     private Client client;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
     private boolean express;
     private ZonedDateTime created;
 
