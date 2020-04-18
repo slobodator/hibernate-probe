@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import com.sloboda.hibernateprobe.entity.Address;
 import com.sloboda.hibernateprobe.entity.Client;
 import com.sloboda.hibernateprobe.entity.Item;
 import com.sloboda.hibernateprobe.entity.Order;
@@ -31,9 +32,13 @@ public class OrderService {
         order.setCreated(ZonedDateTime.now());
         order.setExpress(true);
         order.setStatus(OrderStatus.NEW);
-        order.setAddressCity("Kiev");
-        order.setAddressStreet("Kreschatik str.");
-        order.setAddressBuilding("10");
+
+        Address address = new Address();
+        address.setCity("Kiev");
+        address.setStreet("Kreschatik str.");
+        address.setBuilding("10");
+
+        order.setAddress(address);
 
         em.persist(order);
 

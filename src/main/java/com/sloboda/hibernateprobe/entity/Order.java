@@ -2,7 +2,10 @@ package com.sloboda.hibernateprobe.entity;
 
 import java.time.ZonedDateTime;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
 import javax.persistence.Convert;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,7 +33,9 @@ public class Order {
     private boolean express;
     private ZonedDateTime created;
 
-    private String addressCity;
-    private String addressStreet;
-    private String addressBuilding;
+    @Embedded
+    @AttributeOverride(name = "city", column = @Column(name = "address_city"))
+    @AttributeOverride(name = "street", column = @Column(name = "address_street"))
+    @AttributeOverride(name = "building", column = @Column(name = "address_building"))
+    private Address address;
 }
