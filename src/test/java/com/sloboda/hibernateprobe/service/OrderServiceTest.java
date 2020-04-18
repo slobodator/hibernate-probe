@@ -17,4 +17,9 @@ class OrderServiceTest extends BaseTest {
     void setExpress() {
         orderService.setExpress(1L, false);
     }
+
+    @Test
+    void addItem() {
+        orderService.addItem(1, 1);
+    }
 }

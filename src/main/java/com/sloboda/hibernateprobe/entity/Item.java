@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Columns;
@@ -18,6 +19,7 @@ import org.javamoney.moneta.Money;
 @Table(name = "items")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@EqualsAndHashCode(of = {"name"})
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

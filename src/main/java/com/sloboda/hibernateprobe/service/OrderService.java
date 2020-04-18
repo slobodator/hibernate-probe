@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 
 import com.sloboda.hibernateprobe.entity.Address;
 import com.sloboda.hibernateprobe.entity.Client;
+import com.sloboda.hibernateprobe.entity.Item;
 import com.sloboda.hibernateprobe.entity.Order;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +27,20 @@ public class OrderService {
     public void setExpress(long orderId, boolean express) {
         Order order = em.find(Order.class, orderId);
         order.setExpress(express);
+    }
+
+    public void addItem(long orderId, long itemId) {
+        Order order = em.find(Order.class, orderId);
+        Item item = em.find(Item.class, itemId);
+
+        Integer quantity = order.getItems().get(item);
+
+        if (quantity == null) {
+            quantity = 1;
+        } else {
+            quantity = quantity + 1;
+        }
+
+        order.getItems().put(item, quantity);
     }
 }
