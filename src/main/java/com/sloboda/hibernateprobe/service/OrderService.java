@@ -1,5 +1,7 @@
 package com.sloboda.hibernateprobe.service;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -34,5 +36,14 @@ public class OrderService {
         Item item = em.find(Item.class, itemId);
 
         order.addItem(item);
+    }
+
+    public Order load(long orderId) {
+        return em.find(Order.class, orderId);
+    }
+
+    public List<Order> loadAll() {
+        return em.createQuery("select o from Order o", Order.class)
+                .getResultList();
     }
 }

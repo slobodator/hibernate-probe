@@ -10,12 +10,14 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "clients")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @EqualsAndHashCode(of = {"firstName", "lastName"})
+@ToString(of = {"id", "firstName", "lastName"})
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

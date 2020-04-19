@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.Columns;
 import org.hibernate.annotations.Type;
 import org.javamoney.moneta.Money;
@@ -20,6 +21,7 @@ import org.javamoney.moneta.Money;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @EqualsAndHashCode(of = {"name"})
+@ToString(of = {"id", "name", "price"})
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

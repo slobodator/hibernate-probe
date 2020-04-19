@@ -91,4 +91,16 @@ public class Order {
     public int hashCode() {
         return 31;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", client.id=" + client.getId() +
+                ", status=" + status +
+                ", express=" + express +
+                ", created=" + created +
+                ", address=" + address +
+                '}';
+    }
 }

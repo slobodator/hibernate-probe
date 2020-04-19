@@ -4,8 +4,10 @@ import java.util.stream.Stream;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 @AllArgsConstructor
+@ToString
 public enum OrderStatus {
     NEW("N"),
     PROCESSING("P"),
