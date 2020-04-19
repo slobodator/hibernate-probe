@@ -60,7 +60,7 @@ public class OrderService {
     public List<OrderDto> loadAll() {
         return em.createQuery("select o from Order o", Order.class)
                 .getResultStream()
-                .map(orderMapper::toBriefDto)
+                .map(orderMapper::toMinimalDto)
                 .collect(Collectors.toList());
     }
 }

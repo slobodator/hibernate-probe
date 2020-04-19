@@ -16,4 +16,8 @@ public interface OrderMapper {
 
     @Mapping(target = "items", ignore = true)
     OrderDto toBriefDto(Order order);
+
+    @Mapping(target = "client", ignore = true)
+    @Mapping(target = "items", ignore = true)
+    OrderDto toMinimalDto(Order order);
 }
