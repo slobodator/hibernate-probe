@@ -1,7 +1,7 @@
 package com.sloboda.hibernateprobe.service;
 
 import com.sloboda.hibernateprobe.BaseTest;
-import com.sloboda.hibernateprobe.entity.Order;
+import com.sloboda.hibernateprobe.dto.OrderDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,14 +26,14 @@ class OrderServiceTest extends BaseTest {
 
     @Test
     void loadOrderAndClient() {
-        Order order = orderService.load(1);
+        OrderDto order = orderService.loadBrief(1);
 
         System.out.println(order.getClient());
     }
 
     @Test
     void loadOrderAndItems() {
-        Order order = orderService.load(1);
+        OrderDto order = orderService.loadFull(1);
 
         System.out.println(order.getItems());
     }
