@@ -42,4 +42,9 @@ class OrderServiceTest extends BaseTest {
     void loadAll() {
         orderService.loadAll();
     }
+
+    @Test
+    void findByClient() {
+        orderService.findByClient(2);
+    }
 }

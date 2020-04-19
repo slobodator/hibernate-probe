@@ -63,4 +63,15 @@ public class OrderService {
                 .map(orderMapper::toMinimalDto)
                 .collect(Collectors.toList());
     }
+
+    public List<OrderDto> findByClient(long clientId) {
+        return em.createQuery(
+                "select o from Order o" +
+                        " where o.client.id = :clientId",
+                Order.class
+        ).setParameter("clientId", clientId)
+                .getResultStream()
+                .map(orderMapper::toMinimalDto)
+                .collect(Collectors.toList());
+    }
 }
