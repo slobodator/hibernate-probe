@@ -6,11 +6,7 @@ spring:
     hibernate:
       ddl-auto: create
 
-mybatis:
-  configuration:
-    map-underscore-to-camel-case: true
-
 logging:
   level:
-    root: warn
+    root: info
     net.ttddyy: debug
