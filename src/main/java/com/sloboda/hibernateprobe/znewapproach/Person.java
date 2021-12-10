@@ -8,42 +8,25 @@ import java.util.Comparator;
 import java.util.Objects;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@MappedSuperclass
+@Embeddable
 @Getter
 @ToString
+@EqualsAndHashCode
 public class Person implements Comparable<Person> {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
-    protected Long id;
+    private String firstName;
 
-    protected String firstName;
-
-    protected String lastName;
+    private String lastName;
 
     @Convert(converter = Gender.Converter.class)
-    protected Gender gender;
+    private Gender gender;
 
-    protected LocalDate birthDate;
+    private LocalDate birthDate;
 
     public Person(String firstName, String lastName, Gender gender, LocalDate birthDate) {
         this.firstName = Objects.requireNonNull(firstName, "first name is mandatory");
         this.lastName = Objects.requireNonNull(lastName, "last name is mandatory");
         this.gender = gender;
         this.birthDate = birthDate;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Person)) return false;
-        Person person = (Person) o;
-        return Objects.equals(id, person.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return 37;
     }
 
     @Override

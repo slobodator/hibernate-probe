@@ -11,7 +11,13 @@ import java.util.*;
 @Table(name = "employee2")
 @Getter
 @ToString
-public class Employee extends Person  {
+public class Employee implements Comparable<Employee>  {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Embedded
+    private Person person;
 
     private boolean manager;
 
@@ -23,11 +29,30 @@ public class Employee extends Person  {
     private Set<Employee> subordinates = new TreeSet<>();
 
     public Employee(String firstName, String lastName) {
-        super(firstName, lastName, null, null);
+        this.person = new Person(firstName, lastName, null, null);
     }
 
     public Employee(String firstName, String lastName, Gender gender, LocalDate birthDate) {
-        super(firstName, lastName, gender, birthDate);
+        this.person = new Person(firstName, lastName, gender, birthDate);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Employee)) return false;
+        Employee employee = (Employee) o;
+        return Objects.equals(id, employee.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 37;
+    }
+
+    @Override
+    public int compareTo(Employee that) {
+        return Comparator.comparing(Employee::getPerson)
+                .compare(this, that);
     }
 
     public Set<Employee> getSubordinates() {
