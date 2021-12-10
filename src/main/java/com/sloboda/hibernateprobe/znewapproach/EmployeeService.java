@@ -22,7 +22,9 @@ public class EmployeeService {
     public void add(@Valid EmployeeRequest employeeRequest) {
         Employee employee = new Employee(
                 employeeRequest.getFirstName(),
-                employeeRequest.getLastName()
+                employeeRequest.getLastName(),
+                employeeRequest.getGender(),
+                employeeRequest.getBirthDate()
         );
         em.persist(employee);
     }

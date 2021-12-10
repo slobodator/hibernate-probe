@@ -3,26 +3,15 @@ package com.sloboda.hibernateprobe.znewapproach;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
 import java.util.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "employee2")
 @Getter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
-public class Employee implements Comparable<Employee> {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
-    private Long id;
-
-    @Column(nullable = false)
-    private String firstName;
-
-    @NotBlank
-    private String lastName;
+public class Employee extends Person  {
 
     private boolean manager;
 
@@ -34,8 +23,11 @@ public class Employee implements Comparable<Employee> {
     private Set<Employee> subordinates = new TreeSet<>();
 
     public Employee(String firstName, String lastName) {
-        this.firstName = Objects.requireNonNull(firstName, "first name is mandatory");
-        this.lastName = Objects.requireNonNull(lastName, "last name is mandatory");
+        super(firstName, lastName, null, null);
+    }
+
+    public Employee(String firstName, String lastName, Gender gender, LocalDate birthDate) {
+        super(firstName, lastName, gender, birthDate);
     }
 
     public Set<Employee> getSubordinates() {
@@ -68,13 +60,5 @@ public class Employee implements Comparable<Employee> {
             this.reportsTo.removeSubordinate(this);
         }
         this.reportsTo = null;
-    }
-
-    @Override
-    public int compareTo(Employee that) {
-        return Comparator
-                .comparing(Employee::getLastName)
-                .thenComparing(Employee::getFirstName)
-                .compare(this, that);
     }
 }

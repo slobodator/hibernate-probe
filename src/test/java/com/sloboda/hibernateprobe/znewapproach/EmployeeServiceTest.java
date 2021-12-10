@@ -4,6 +4,8 @@ import com.sloboda.hibernateprobe.BaseTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
+
 class EmployeeServiceTest extends BaseTest {
     @Autowired
     private EmployeeService service;
@@ -14,6 +16,8 @@ class EmployeeServiceTest extends BaseTest {
                 new EmployeeRequest()
                         .setFirstName("Adam")
                         .setLastName("Alpha")
+                        .setGender(Gender.DIVERSE)
+                        .setBirthDate(LocalDate.of(2000, 1,1))
         );
     }
 
