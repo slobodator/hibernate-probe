@@ -1,6 +1,7 @@
 package com.sloboda.hibernateprobe.znewapproach;
 
 import lombok.*;
+import org.hibernate.annotations.MapKeyType;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,7 +12,7 @@ import java.util.*;
 @Table(name = "employee2")
 @Getter
 @ToString
-public class Employee implements Comparable<Employee>  {
+public class Employee implements Comparable<Employee> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,6 +28,15 @@ public class Employee implements Comparable<Employee>  {
     @OneToMany(mappedBy = "reportsTo")
     @ToString.Exclude
     private Set<Employee> subordinates = new TreeSet<>();
+
+    @ElementCollection
+    @CollectionTable(
+            name = "manager_feedbacks",
+            joinColumns = @JoinColumn(name = "manager_id")
+    )
+    @MapKeyJoinColumn(name = "employee_id") // employee
+    @Column(name = "feedback")
+    private Map<Employee, String> feedbacks = new HashMap<>();
 
     public Employee(String firstName, String lastName) {
         this.person = new Person(firstName, lastName, null, null);
@@ -85,5 +95,9 @@ public class Employee implements Comparable<Employee>  {
             this.reportsTo.removeSubordinate(this);
         }
         this.reportsTo = null;
+    }
+
+    public void putFeedback(Employee employee, String feedback) {
+        feedbacks.put(employee, feedback);
     }
 }

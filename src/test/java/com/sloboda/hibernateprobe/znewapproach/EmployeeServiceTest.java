@@ -17,7 +17,7 @@ class EmployeeServiceTest extends BaseTest {
                         .setFirstName("Adam")
                         .setLastName("Alpha")
                         .setGender(Gender.DIVERSE)
-                        .setBirthDate(LocalDate.of(2000, 1,1))
+                        .setBirthDate(LocalDate.of(2000, 1, 1))
         );
     }
 
@@ -40,6 +40,27 @@ class EmployeeServiceTest extends BaseTest {
         service.add(
                 new EmployeeRequest()
         );
+    }
+
+    @Test
+    void managerAndSubordinate() {
+        Employee employee = new Employee("John", "Employee");
+        employee.assignManager(
+                new Employee("Jack", "Manager")
+        );
+        em.persist(employee);
+    }
+
+    @Test
+    void feedback() {
+        Employee manager = new Employee("x", "x");
+        em.persist(manager);
+
+        Employee employee = new Employee("y", "y");
+
+        manager.addSubordinate(employee);
+
+        manager.putFeedback(employee, "Good enough");
     }
 
 }
