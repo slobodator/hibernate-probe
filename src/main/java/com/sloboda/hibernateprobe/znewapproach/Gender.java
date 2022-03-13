@@ -24,7 +24,9 @@ public enum Gender {
 
         @Override
         public Gender convertToEntityAttribute(String s) {
-            return Stream.of(values())
+            return s == null
+                    ? null
+                    : Stream.of(values())
                     .filter(v -> v.abbr.equals(s))
                     .findFirst()
                     .orElseThrow(() -> new IllegalArgumentException(String.format("Unknown gender %s", s)));
