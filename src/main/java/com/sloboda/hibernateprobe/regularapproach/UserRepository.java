@@ -1,2 +1,8 @@
-package com.sloboda.hibernateprobe.regularapproach;public class UserRepository {
+package com.sloboda.hibernateprobe.regularapproach;
+
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface UserRepository extends CrudRepository<User, Long> {
 }

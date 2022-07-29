@@ -22,10 +22,10 @@ public class Employee implements Comparable<Employee> {
 
     private boolean manager;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Employee reportsTo;
 
-    @OneToMany(mappedBy = "reportsTo")
+    @OneToMany(mappedBy = "reportsTo", cascade = CascadeType.PERSIST)
     @ToString.Exclude
     private Set<Employee> subordinates = new TreeSet<>();
 
@@ -38,12 +38,33 @@ public class Employee implements Comparable<Employee> {
     @Column(name = "feedback")
     private Map<Employee, String> feedbacks = new HashMap<>();
 
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Extra extra;
+
+    @Setter
+    private String desc;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "guests_requests",
+            joinColumns = @JoinColumn(name = "rsrv_id")
+    )
+    @MapKeyColumn(name = "request_n")
+    @Column(name = "request_importance_n")
+    @Enumerated(EnumType.STRING)
+    private Map<Request, RequestImportance> guestsRequests = new HashMap<>();
+
     public Employee(String firstName, String lastName) {
         this.person = new Person(firstName, lastName, null, null);
     }
 
     public Employee(String firstName, String lastName, Gender gender, LocalDate birthDate) {
         this.person = new Person(firstName, lastName, gender, birthDate);
+    }
+
+    public Employee(String firstName, String lastName, Gender gender, LocalDate birthDate, Map<Request, RequestImportance> map) {
+        this.person = new Person(firstName, lastName, gender, birthDate);
+        guestsRequests.putAll(map);
     }
 
     @Override
@@ -99,5 +120,18 @@ public class Employee implements Comparable<Employee> {
 
     public void putFeedback(Employee employee, String feedback) {
         feedbacks.put(employee, feedback);
+    }
+
+    public void setExtra(Extra extra) {
+        if (this.extra == null) {
+            this.extra = extra;
+            this.extra.setEmployee(this);
+        } else {
+            this.extra.updateBy(extra);
+        }
+    }
+
+    public void dropExtra() {
+        this.extra = null;
     }
 }

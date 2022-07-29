@@ -17,7 +17,8 @@ import javax.validation.Valid;
 @Validated
 public class EmployeeService {
     private final EntityManager em;
-    private EmployeeRepository repository;
+    private final EmployeeRepository repository;
+    private final EmployeeServiceAsync employeeServiceAsync;
 
     public void add(@Valid EmployeeRequest employeeRequest) {
         Employee employee = new Employee(
@@ -45,5 +46,20 @@ public class EmployeeService {
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Employee %d not found", id)));
 
         repository.deleteById(id);
+    }
+
+
+    @Transactional
+    public void method4() throws InterruptedException {
+        Employee manager = new Employee("x4", "x4");
+        Employee merge = repository.save(manager);
+
+        Employee employee2 = new Employee("y4", "y4");
+        repository.save(employee2);
+
+        Thread.sleep(10000);
+
+        //employeeServiceAsync.newMethod(merge);
+        employeeServiceAsync.newMethodId(1L);
     }
 }
