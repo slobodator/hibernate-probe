@@ -1,0 +1,9 @@
+### test
+
+POST {{url}}/items
+Content-Type: application/json
+
+{
+  "number": 999.1,
+  "str": "content"
+}
