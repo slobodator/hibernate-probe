@@ -21,8 +21,13 @@ public class Employee {
     @ManyToOne(cascade = CascadeType.ALL)
     private Department department;
 
-    public Employee(String name, Department department) {
+    @Embedded
+    @AttributeOverride(name = "subAddress.street", column = @Column(name = "street2"))
+    private Address address;
+
+    public Employee(String name, Department department, Address address) {
         this.name = name;
         this.department = department;
+        this.address = address;
     }
 }

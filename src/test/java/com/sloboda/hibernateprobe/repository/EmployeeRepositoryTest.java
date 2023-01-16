@@ -1,8 +1,10 @@
 package com.sloboda.hibernateprobe.repository;
 
 import com.sloboda.hibernateprobe.BaseTest;
+import com.sloboda.hibernateprobe.entity.Address;
 import com.sloboda.hibernateprobe.entity.Department;
 import com.sloboda.hibernateprobe.entity.Employee;
+import com.sloboda.hibernateprobe.entity.SubAddress;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,7 +16,12 @@ public class EmployeeRepositoryTest extends BaseTest {
     public void test1() {
         Employee emp = new Employee(
                 "John",
-                new Department(100L)
+                new Department(100L),
+                new Address(
+                        new SubAddress(
+                                "street"
+                        )
+                )
         );
         em.persist(emp);
 
