@@ -1,22 +1,17 @@
 package com.sloboda.hibernateprobe.entity;
 
-import com.sloboda.hibernateprobe.entity.Department;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
+@SuppressWarnings("unused")
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter
     private Long id;
 

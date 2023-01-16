@@ -1,9 +1,12 @@
 package com.sloboda.hibernateprobe;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.ToString;
 
-@Data
+@SuppressWarnings("unused")
+@Getter
+@ToString
 public class IncomingRequest {
-    private CharSequence str;
-    private Number number;
+    private String str;
+    private Integer number;
 }

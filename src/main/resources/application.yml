@@ -3,6 +3,7 @@ spring:
     hikari:
       jdbc-url: jdbc:h2:file:./target/test;AUTO_SERVER=TRUE
   jpa:
+    open-in-view: false
     hibernate:
       ddl-auto: update
     properties:
