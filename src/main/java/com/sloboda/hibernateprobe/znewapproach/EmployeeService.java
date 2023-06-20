@@ -29,16 +29,7 @@ public class EmployeeService {
         em.persist(employee);
     }
 
-    public void assignManager(Long employeeId, Long managerId) {
-        Employee employee = repository.findById(employeeId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Employee %d not found", employeeId)));
-        Employee manager = repository.findById(managerId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Manager %d not found", managerId)));
 
-        employee.assignManager(manager);
-
-        log.info("members are = " + manager.getSubordinates());
-    }
 
     public void remove(Long id) {
         Employee employee = repository.findById(id)

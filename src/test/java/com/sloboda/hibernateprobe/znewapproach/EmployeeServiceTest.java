@@ -1,14 +1,23 @@
 package com.sloboda.hibernateprobe.znewapproach;
 
 import com.sloboda.hibernateprobe.BaseTest;
+import io.hypersistence.utils.jdbc.validator.SQLStatementCountValidator;
+import net.ttddyy.dsproxy.QueryCountHolder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 
+import static io.hypersistence.utils.jdbc.validator.SQLStatementCountValidator.assertSelectCount;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
+
 class EmployeeServiceTest extends BaseTest {
     @Autowired
     private EmployeeService service;
+
+    @Autowired
+    private EmployeeRepository repository;
 
     @Test
     void add1() {
@@ -30,10 +39,6 @@ class EmployeeServiceTest extends BaseTest {
         );
     }
 
-    @Test
-    void assignManager() {
-        service.assignManager(1L, 2L);
-    }
 
     @Test
     void add3() {
@@ -44,11 +49,33 @@ class EmployeeServiceTest extends BaseTest {
 
     @Test
     void managerAndSubordinate() {
+        QueryCountHolder.clear();
+        SQLStatementCountValidator.reset();
+
         Employee employee = new Employee("John", "Employee");
-        employee.assignManager(
-                new Employee("Jack", "Manager")
-        );
         em.persist(employee);
+
+        em.flush();
+        em.clear();
+
+
+        //em.createQuery("select e from Employee e where e.id = :id", Employee.class).setParameter("id", 1L).getSingleResult();
+        //Employee employee1 = em.find(Employee.class, 1L);
+        Employee employee1 = repository.findByIdWithCountry(1L).orElseThrow();
+        employee1.printCountry();
+        employee1.getDescription();
+
+        //System.out.println(QueryCountHolder.get("dataSource").getSelect());
+        assertSelectCount(1);
+        assertThat(QueryCountHolder.getGrandTotal().getSelect()).isEqualTo(1);
+
+    }
+
+
+    @Test
+    void fetch() {
+        Employee employee = em.find(Employee.class, 1L);
+
     }
 
     @Test
@@ -58,9 +85,6 @@ class EmployeeServiceTest extends BaseTest {
 
         Employee employee = new Employee("y", "y");
 
-        manager.addSubordinate(employee);
-
-        manager.putFeedback(employee, "Good enough");
     }
 
 }

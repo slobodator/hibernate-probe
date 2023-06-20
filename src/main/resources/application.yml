@@ -14,3 +14,8 @@ logging:
     root: warn
     net.ttddyy: debug
     com.sloboda: info
+
+decorator:
+  datasource:
+    datasource-proxy:
+      count-query: true

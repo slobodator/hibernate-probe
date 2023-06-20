@@ -1,11 +1,24 @@
 package com.sloboda.hibernateprobe.znewapproach;
 
-import lombok.*;
-import org.hibernate.annotations.MapKeyType;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Comparator;
+import java.util.Objects;
+
+@SuppressWarnings("FieldMayBeFinal")
+@NamedEntityGraph(
+        name = "with-country",
+        attributeNodes = {
+                @NamedAttributeNode("country"),
+        },
+        includeAllAttributes = true
+
+)
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -20,31 +33,25 @@ public class Employee implements Comparable<Employee> {
     @Embedded
     private Person person;
 
-    private boolean manager;
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Country country;
 
-    @ManyToOne
-    private Employee reportsTo;
-
-    @OneToMany(mappedBy = "reportsTo")
-    @ToString.Exclude
-    private Set<Employee> subordinates = new TreeSet<>();
-
-    @ElementCollection
-    @CollectionTable(
-            name = "manager_feedbacks",
-            joinColumns = @JoinColumn(name = "manager_id")
-    )
-    @MapKeyJoinColumn(name = "employee_id") // employee
-    @Column(name = "feedback")
-    private Map<Employee, String> feedbacks = new HashMap<>();
+    @Basic(fetch = FetchType.LAZY)
+    private String description = "description";
 
     public Employee(String firstName, String lastName) {
         this.person = new Person(firstName, lastName, null, null);
     }
 
+    public Employee(String firstName, String lastName, String countryName) {
+        this.person = new Person(firstName, lastName, null, null);
+        this.country = new Country(countryName, this);
+    }
+
     public Employee(String firstName, String lastName, Gender gender, LocalDate birthDate) {
         this.person = new Person(firstName, lastName, gender, birthDate);
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -65,39 +72,7 @@ public class Employee implements Comparable<Employee> {
                 .compare(this, that);
     }
 
-    public Set<Employee> getSubordinates() {
-        return Collections.unmodifiableSet(subordinates);
-    }
-
-    public void addSubordinate(Employee subordinate) {
-        if (subordinates.add(subordinate)) {
-            manager = true;
-
-            subordinate.assignManager(this);
-        }
-    }
-
-    public void assignManager(Employee manager) {
-        this.reportsTo = manager;
-        manager.addSubordinate(this);
-    }
-
-    public void removeSubordinate(Employee subordinate) {
-        if (subordinates.remove(subordinate)) {
-            manager = subordinates.size() > 0;
-
-            subordinate.unassignManager();
-        }
-    }
-
-    public void unassignManager() {
-        if (this.reportsTo != null) {
-            this.reportsTo.removeSubordinate(this);
-        }
-        this.reportsTo = null;
-    }
-
-    public void putFeedback(Employee employee, String feedback) {
-        feedbacks.put(employee, feedback);
+    public void printCountry() {
+        System.out.println(country);
     }
 }

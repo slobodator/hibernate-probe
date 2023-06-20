@@ -2,7 +2,10 @@ package com.sloboda.hibernateprobe.znewapproach;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Convert;
+import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Objects;
@@ -15,6 +18,7 @@ import java.util.Objects;
 public class Person implements Comparable<Person> {
     private String firstName;
 
+    @Basic(fetch = FetchType.LAZY)
     private String lastName;
 
     @Convert(converter = Gender.Converter.class)
